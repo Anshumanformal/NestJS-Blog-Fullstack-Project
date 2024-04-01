@@ -1,9 +1,9 @@
 import * as mongoose from 'mongoose';
 
 export const BlogSchema = new mongoose.Schema({
-    title: String,
-    description: String,
-    body: String,
-    author: String,
-    date_posted: String
+    title: {type: String},
+    description: {type: String},
+    body: {type: String},
+    author: {type: String},
+    date_posted: {type: String}
 })
