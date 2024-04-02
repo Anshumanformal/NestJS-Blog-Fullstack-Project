@@ -8,7 +8,8 @@ const CreatePost = () => {
         title, setTitle,
         description, setDescription, 
         body, setBody, 
-        author, setAuthor
+        author, setAuthor,
+        datePosted, setDatePosted
       ] = useState(['', '', '', '']);
       
   const history = useHistory();

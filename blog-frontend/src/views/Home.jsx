@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+// import { useHistory } from 'react-router' // Install 'react-router' if necessary
 import axios from 'axios';
 import { server } from '../utils/helper'
 
 const BlogList = () => {
   const [posts, setPosts] = useState([]);
-  const history = useHistory();
+  // const history = useHistory();
 
   useEffect(() => {
     fetchPosts();
