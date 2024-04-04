@@ -1,21 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { server } from '../../utils/helper';
-import { useHistory, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const EditPost = () => {
   const [post, setPost] = useState({});
   const { id } = useParams();
-  const history = useHistory();
-
-  useEffect(() => {
-    getPost();
-  }, []); // Empty dependency array to run the effect only once on component mount
+  const navigate = useNavigate();
 
   const getPost = () => {
     axios.get(`${server.baseURL}/blog/post/${id}`)
       .then(response => setPost(response.data))
       .catch(error => console.error('Error fetching post:', error));
+  };
+
+  useEffect(() => {
+    getPost();
+  }, []); // Empty dependency array to run the effect only once on component mount
+
+  const navigateBack = () => {
+    navigate('/home')
   };
 
   const editPost = (e) => {
@@ -28,14 +32,12 @@ const EditPost = () => {
       date_posted: post.date_posted,
     };
 
-    axios.put(`${server.baseURL}/blog/edit?postID=${id}`, postData)
-      .then(() => history.push('/home'))
+    axios.put(`${server.baseURL}/blog/post?postID=${id}`, postData)
+      .then(navigateBack)
       .catch(error => console.error('Error editing post:', error));
   };
 
-  const navigateBack = () => {
-    history.goBack();
-  };
+  
 
   return (
     <div>

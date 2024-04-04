@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { server } from '../../utils/helper';
 
 const PostDetail = () => {
   const { id } = useParams();
-  const history = useHistory();
+  const navigate = useNavigate();
   const [post, setPost] = useState({});
 
   useEffect(() => {
@@ -19,7 +19,7 @@ const PostDetail = () => {
   };
 
   const navigateBack = () => {
-    history.goBack();
+    navigate('/home')
   };
 
   return (

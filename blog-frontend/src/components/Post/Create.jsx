@@ -1,27 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { server } from '../../utils/helper'; 
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const CreatePost = () => {
-  const [
-        title, setTitle,
-        description, setDescription, 
-        body, setBody, 
-        author, setAuthor,
-        datePosted, setDatePosted
-      ] = useState(['', '', '', '']);
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [body, setBody] = useState('');
+  const [author, setAuthor] = useState('');
+  const [datePosted, setDatePosted] = useState('');
       
-  const history = useHistory();
+  const navigate = useNavigate();
 
   useEffect(() => {
     setDatePosted(new Date().toLocaleDateString());
-  }, []);
+  }, []); // Empty dependency array to run the effect only once on component mount
 
   const submitToServer = (data) => {
     axios.post(`${server.baseURL}/blog/post`, data)
       .then(response => {
-        history.push('/home'); // Assuming '/home' is the route you want to navigate to after successful post creation
+        navigate('/home'); // Assuming '/home' is the route you want to navigate to after successful post creation
       })
       .catch(error => {
         console.error('Error creating post:', error);

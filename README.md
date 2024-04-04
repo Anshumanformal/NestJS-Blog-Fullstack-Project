@@ -22,7 +22,11 @@ Phase 1:
     1. Blog creator info
     2. Blog content
     3. date & time of the blog.
-5. Only the creator of the blog can update or delete the blog.
 
 Phase 2:
-1. User authentication - only logged in (authenticated) users can access blogs.
+1. User authentication - User must be logged in to create the blog.
+2. Only the creator of the blog can update or delete the blog.
+
+
+
+background-color: #282c34;

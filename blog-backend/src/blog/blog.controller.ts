@@ -32,7 +32,7 @@ export class BlogController {
         })
     }
 
-    @Put('/edit')
+    @Put('/post')
     async editPost(
         @Res() res,
         @Query('postID', new ValidateObjectId()) postID,
@@ -46,7 +46,7 @@ export class BlogController {
         })
     }
 
-    @Delete('/delete')
+    @Delete('/post')
     async deletePost(@Res() res, @Query('postID', new ValidateObjectId()) postID) {
         const deletedPost = await this.blogService.deletePost(postID);
         if (!deletedPost) throw new NotFoundException('Post does not exist!');

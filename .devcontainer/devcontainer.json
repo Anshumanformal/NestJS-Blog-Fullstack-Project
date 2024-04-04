@@ -2,6 +2,7 @@
 	"image": "mcr.microsoft.com/devcontainers/universal:2",
 	"features": {
 		"ghcr.io/devcontainers-contrib/features/nestjs-cli:2": {},
-		"ghcr.io/devcontainers-contrib/features/mongosh-homebrew:1": {}
+		"ghcr.io/devcontainers-contrib/features/mongosh-homebrew:1": {},
+		"ghcr.io/devcontainers-contrib/features/npm-package:1": {}
 	}
 }
