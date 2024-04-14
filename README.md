@@ -7,9 +7,6 @@ NestJS Project - User Blog app
 1. cd blog-frontend/ && npm run start
 2. cd blog-backend/ && npm run start:dev
 
-# To Do
-1. Move mongodb connection string to config file.
-
 # Agenda
 
 Phase 1:

@@ -13,12 +13,22 @@ export class UserService {
         return users;
     }
 
+    async findOneByEmail(email: string): Promise<User> {
+        const user = await this.userModel.findOne({email: email}).exec();
+        return user;
+    }
+
+    async findOneByID(id: string): Promise<User> {
+        const user = await this.userModel.findOne({id: id}).exec();
+        return user;
+    }
+
     async getUser(userID): Promise<User> {
         const user = await this.userModel.findById(userID).exec();
         return user;
     }
 
-    async addUser(createPostDTO: CreateUserDTO): Promise<User> {
+    async createUser(createPostDTO: CreateUserDTO): Promise<User> {
         const newPost = new this.userModel(createPostDTO);
         return newPost.save();
     }
