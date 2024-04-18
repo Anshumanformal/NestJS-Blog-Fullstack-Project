@@ -14,7 +14,8 @@ export class JWTStrategy extends PassportStrategy(Strategy, 'jwt') {
   }
 
   async validate(payload: {sub: string, email: string}) {
-    const user = await this.userService.findOneByEmail(payload.email)
+    // const user = await this.userService.findOneByID(payload.sub) // Both will work as both _id and email are unique identifier
+    const user = await this.userService.findOneByEmail(payload.email) // Both will work as both _id and email are unique identifier
     delete user.password
     return user
   }

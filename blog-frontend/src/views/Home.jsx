@@ -34,6 +34,14 @@ const BlogList = () => {
     navigate('/create')
   };
 
+  const handleSignInClick = () => {
+    navigate("/signin")
+  }
+
+  const handleSignUpClick = () => {
+    navigate("/signup")
+  }
+
   return (
     <div>
 
@@ -41,13 +49,13 @@ const BlogList = () => {
         <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
           <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
           </ul>
-          <button type="button" class="btn btn-primary mr-2">Login</button>
-          <button type="button" class="btn btn-primary">Signup</button>
+          <button type="button" class="btn btn-primary mr-2" onClick={handleSignInClick}>Sign In</button>
+          <button type="button" class="btn btn-primary" onClick={handleSignUpClick}>Sign Up</button>
         </div>
       </nav>
       <div className="text-center">
         <h1>Nest Blog Tutorial</h1>
-        <p>This is the description of the blog built with Nest.js, React.js and MongoDB</p>
+        <p>This is the description of the blog built with NestJS, ReactJS and MongoDB</p>
       </div>
 
       <div className="row">

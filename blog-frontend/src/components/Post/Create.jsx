@@ -13,13 +13,20 @@ const CreatePost = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const isAuthenticated = localStorage.getItem('token')
+    if (!isAuthenticated) {
+      navigate('/signin');
+    }
+  }, [navigate])
+
+  useEffect(() => {
     setDatePosted(new Date().toLocaleDateString());
   }, []); // Empty dependency array to run the effect only once on component mount
 
   const submitToServer = (data) => {
     axios.post(`${server.baseURL}/blog/post`, data)
       .then(response => {
-        navigate('/home'); // Assuming '/home' is the route you want to navigate to after successful post creation
+        navigate('/home');
       })
       .catch(error => {
         console.error('Error creating post:', error);

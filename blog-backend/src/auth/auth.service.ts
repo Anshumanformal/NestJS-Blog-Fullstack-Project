@@ -44,8 +44,9 @@ export class AuthService {
         return this.signToken(user.id, user.email);
     }
 
-    async signToken(userId: string, email: string): Promise<{ access_token: string }> {
+    async signToken(userId: string , email: string): Promise<{ access_token: string }> {
         const payload = {
+            // Sub is a JWT way of mentioning a unique identifier
             sub: userId,
             email,
         };

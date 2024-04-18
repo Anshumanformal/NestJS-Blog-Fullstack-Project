@@ -1,4 +1,6 @@
 import './App.css';
+import SignIn from './components/Post/Authentication/SignIn';
+import SignUp from './components/Post/Authentication/SignUp';
 import CreatePost from "./components/Post/Create"
 import EditPost from "./components/Post/Edit"
 import PostDetail from "./components/Post/PostDetail"
@@ -14,6 +16,8 @@ function App() {
             <Route path="/create" element={<CreatePost />} />
             <Route path="/edit/:id" element={<EditPost />} />
             <Route path="/post/:id" element={<PostDetail />} />
+            <Route path="/signin" element={<SignIn />} />
+            <Route path="/signup" element={<SignUp />} />
           </Routes>
         </Router>
   );
