@@ -4,7 +4,6 @@ import { AuthService } from './auth.service';
 import { JwtModule } from '@nestjs/jwt';
 import { JWTStrategy } from './strategy';
 import { UserModule } from 'src/user/user.module';
-import { config } from 'process';
 
 @Module({
   imports: [

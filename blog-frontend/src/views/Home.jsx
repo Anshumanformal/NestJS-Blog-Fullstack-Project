@@ -8,6 +8,8 @@ const BlogList = () => {
 
   const navigate = useNavigate()
 
+  const token = localStorage.getItem('accessToken');
+
   useEffect(() => {
     fetchPosts();
   }, []); // Empty dependency array to run the effect only once on component mount
@@ -23,14 +25,19 @@ const BlogList = () => {
 
   const deletePost = async (postId) => {
     try {
-      await axios.delete(`${server.baseURL}/blog/post?postID=${postId}`);
+      const requestConfig = {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }
+      await axios.delete(`${server.baseURL}/blog/post?postID=${postId}`, requestConfig);
       fetchPosts(); // Fetch posts again after deletion
     } catch (error) {
       console.error('Error deleting post:', error);
     }
   };
 
-  const navigateToHome = () => {
+  const navigateToCreatePost = () => {
     navigate('/create')
   };
 
@@ -42,28 +49,39 @@ const BlogList = () => {
     navigate("/signup")
   }
 
+  const handleSignOutClick = () => {
+    navigate("/signout")
+  }
+
   return (
     <div>
-
       <nav class="navbar navbar-expand-lg navbar-light bg-dark">
-        <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-          <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-          </ul>
-          <button type="button" class="btn btn-primary mr-2" onClick={handleSignInClick}>Sign In</button>
-          <button type="button" class="btn btn-primary" onClick={handleSignUpClick}>Sign Up</button>
-        </div>
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+        </ul>
+        {
+          token ? (
+            <button type="button" class="btn btn-primary mr-2" onClick={handleSignOutClick}>Logout</button>
+          ) : (
+            <>
+              <button type="button" class="btn btn-primary mr-2" onClick={handleSignInClick}>Login</button>
+              <button type="button" class="btn btn-primary" onClick={handleSignUpClick}>Register</button>
+            </>
+          )
+        }
+
       </nav>
       <div className="text-center">
-        <h1>Nest Blog Tutorial</h1>
-        <p>This is the description of the blog built with NestJS, ReactJS and MongoDB</p>
+        <h1>Blog Web App</h1>
+        <p>Blog webapp built with NestJS, ReactJS and MongoDB</p>
+        {/* Irrespective of any post is available or not, any logged in user should be able to create multiple posts */}
+        <button className="btn btn-success" onClick={navigateToCreatePost}>Create Post</button>
       </div>
-
       <div className="row">
         {posts.length === 0 ?
           (
             <div className="col-md-12 text-center">
               <h2>No Posts found</h2>
-              <button className="btn btn-success" onClick={navigateToHome}>Create Post</button>
+              <button className="btn btn-success" onClick={navigateToCreatePost}>Create Post</button>
             </div>
           ) :
           (
@@ -76,9 +94,18 @@ const BlogList = () => {
                       <p className="card-text">{post.body}</p>
                       <div className="d-flex justify-content-between align-items-center">
                         <div className="btn-group" style={{ marginBottom: '20px' }}>
-                          <Link to={`/post/${post._id}`} className="btn btn-sm btn-outline-secondary">View Post</Link>
-                          <Link to={`/edit/${post._id}`} className="btn btn-sm btn-outline-secondary">Edit Post</Link>
-                          <button className="btn btn-sm btn-outline-secondary" onClick={() => deletePost(post._id)}>Delete Post</button>
+                          {/* Only allow logged in users to edit or delete a post */}
+                          {
+                            token ? (
+                              <>
+                              <Link to={`/post/${post._id}`} className="btn btn-sm btn-outline-secondary mr-1">View Post</Link>
+                              <Link to={`/edit/${post._id}`} className="btn btn-sm btn-outline-secondary mr-1">Edit Post</Link>
+                              <button className="btn btn-sm btn-outline-secondary mr-1" onClick={() => deletePost(post._id)}>Delete Post</button>
+                              </>
+                            ) : (
+                              <Link to={`/post/${post._id}`} className="btn btn-sm btn-outline-secondary mr-1">View Post</Link>
+                            )
+                          }
                         </div>
                       </div>
                       <div className="card-footer">

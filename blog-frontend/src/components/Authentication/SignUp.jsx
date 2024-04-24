@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { server } from "../../../utils/helper"
+import { server } from "../../utils/helper"
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -58,9 +58,20 @@ const SignUp = () => {
     };
   }, [hideModalTimeout]);
 
+  const navigateBack = () => {
+    navigate('/home')
+  };
+
+  const handleUserLogin = () => {
+    navigate('/signin')
+  }
+
   return (
-    <div className="container d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
-      
+    <>
+      <div className="d-flex  mt-2 justify-content-center align-items-center">
+        <button className="btn btn-success" onClick={navigateBack}>View All Posts</button>
+      </div>
+      <div className="container d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
       <form className="col-md-6" onSubmit={handleSubmit}>
 
         {/* Bootstrap Popup for Success */}
@@ -108,9 +119,11 @@ const SignUp = () => {
           <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
           <small id="emailHelp" className="form-text text-muted">Please create a strong password with a mix of uppercase, lowercase, numbers and special characters</small>
         </div>
-        <button type="submit" className="btn btn-primary">Submit</button>
+        <button type="submit" className="btn btn-primary mr-1">Register</button>
+        <button type="submit" className="btn btn-primary" onClick={handleUserLogin}>Login</button>
       </form>
     </div>
+    </>
   )
 }
 

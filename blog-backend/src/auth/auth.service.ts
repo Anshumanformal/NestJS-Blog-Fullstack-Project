@@ -61,4 +61,8 @@ export class AuthService {
             access_token: token,
         };
     }
+
+    async signout(token: string) {
+        
+    }
 }

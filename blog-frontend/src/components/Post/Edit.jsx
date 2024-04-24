@@ -8,6 +8,9 @@ const EditPost = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
+  const token = localStorage.getItem('accessToken');
+  if(!token) navigate('/signin');
+
   const getPost = () => {
     axios.get(`${server.baseURL}/blog/post/${id}`)
       .then(response => setPost(response.data))
@@ -32,24 +35,33 @@ const EditPost = () => {
       date_posted: post.date_posted,
     };
 
-    axios.put(`${server.baseURL}/blog/post?postID=${id}`, postData)
+    const requestConfig = {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }
+    axios.put(`${server.baseURL}/blog/post?postID=${id}`, postData, requestConfig)
       .then(navigateBack)
       .catch(error => console.error('Error editing post:', error));
   };
 
-  
+  const handleLogoutUser = () => {
+    navigate('/signout')
+  }  
 
   return (
     <div>
-      <h4 className="text-center mt-20">
-        <small>
-          <button className="btn btn-success" onClick={navigateBack}> View All Posts </button>
-        </small>
-      </h4>
-      <div className="col-md-12 form-wrapper">
+      <div style={{ marginTop: '30px' }}>
+        <div className="d-flex mt-2 justify-content-center align-items-center">
+          <button className="btn btn-success mr-1" onClick={navigateBack}>View All Posts</button>
+          <button className="btn btn-danger" onClick={handleLogoutUser}>Logout</button>
+        </div>
+      </div>
+      <div className='d-flex justify-content-center align-items-center' style={{ minHeight: '50vh' }}>
+      <div className="col-md-5 form-wrapper">
         <h2> Edit Post </h2>
         <form id="edit-post-form" onSubmit={editPost}>
-          <div className="form-group col-md-12">
+          <div className="form-group col-md-5">
             <label htmlFor="title"> Title </label>
             <input
               type="text"
@@ -61,7 +73,7 @@ const EditPost = () => {
               placeholder="Enter title"
             />
           </div>
-          <div className="form-group col-md-12">
+          <div className="form-group col-md-5">
             <label htmlFor="description"> Description </label>
             <input
               type="text"
@@ -73,7 +85,7 @@ const EditPost = () => {
               placeholder="Enter Description"
             />
           </div>
-          <div className="form-group col-md-12">
+          <div className="form-group col-md-5">
             <label htmlFor="body"> Write Content </label>
             <textarea
               id="body"
@@ -84,7 +96,7 @@ const EditPost = () => {
               className="form-control"
             ></textarea>
           </div>
-          <div className="form-group col-md-12">
+          <div className="form-group col-md-5">
             <label htmlFor="author"> Author </label>
             <input
               type="text"
@@ -100,6 +112,7 @@ const EditPost = () => {
             <button className="btn btn-success" type="submit"> Edit Post </button>
           </div>
         </form>
+      </div>
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
 import './App.css';
-import SignIn from './components/Post/Authentication/SignIn';
-import SignUp from './components/Post/Authentication/SignUp';
+import SignIn from './components/Authentication/SignIn';
+import SignUp from './components/Authentication/SignUp';
+import SignOut from './components/Authentication/SignOut';
 import CreatePost from "./components/Post/Create"
 import EditPost from "./components/Post/Edit"
 import PostDetail from "./components/Post/PostDetail"
@@ -18,6 +19,7 @@ function App() {
             <Route path="/post/:id" element={<PostDetail />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signup" element={<SignUp />} />
+            <Route path="/signout" element={<SignOut />} />
           </Routes>
         </Router>
   );
