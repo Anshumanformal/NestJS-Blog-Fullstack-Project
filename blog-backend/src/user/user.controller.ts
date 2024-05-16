@@ -12,6 +12,14 @@ export class UserController {
     constructor(private userService: UserService){}
 
     @UseGuards(JwtGuard)
+    @Get(':userEmail')
+    async getUserByEmail(@Res() res: Response, @Param('userEmail') userEmail) {
+        const user = await this.userService.getUserByEmail(userEmail);
+        if (!user) throw new NotFoundException('User does not exist!');
+        return res.status(HttpStatus.OK).json(user);
+    }
+
+    @UseGuards(JwtGuard)
     @Get('users')
     async getUsers(@Res() res: Response) {
         const users = await this.userService.getUsers();

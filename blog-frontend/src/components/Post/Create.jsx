@@ -7,7 +7,7 @@ const CreatePost = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [body, setBody] = useState('');
-  const [author, setAuthor] = useState('');
+  const [author, setAuthorID] = useState('');
   const [datePosted, setDatePosted] = useState('');
       
   const navigate = useNavigate();
@@ -26,6 +26,7 @@ const CreatePost = () => {
 
     const formattedDate = new Date().toLocaleDateString('en-IN', options);
     setDatePosted(formattedDate)
+    getUser()
   }, []); // Empty dependency array to run the effect only once on component mount
 
   const submitToServer = async (data) => {
@@ -53,6 +54,25 @@ const CreatePost = () => {
     };
     submitToServer(postData);
   };
+
+  const getCurrentLoggedInUser = localStorage.getItem('currentLoggedInUserEmail')
+
+  const getUser = () => {
+    try {
+      const requestConfig = {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }
+      axios.get(`${server.baseURL}/user/${getCurrentLoggedInUser}`, requestConfig)
+        .then(response => {
+          setAuthorID(response.data._id)
+        })
+        .catch(error => console.error('Error fetching current logged in user:', error));
+    } catch (error) {
+        console.error('Error fetching user details: ', error);
+    }
+  }
 
   const navigateBack = () => {
     navigate('/home')
@@ -106,17 +126,6 @@ const CreatePost = () => {
                 rows="5"
                 className="form-control"
               ></textarea>
-            </div>
-            <div className="form-group col-md-5">
-              <label htmlFor="author"> Author </label>
-              <input
-                type="text"
-                id="author"
-                value={author}
-                onChange={(e) => setAuthor(e.target.value)}
-                name="author"
-                className="form-control"
-              />
             </div>
 
             <div className="form-group col-md-4 pull-right">

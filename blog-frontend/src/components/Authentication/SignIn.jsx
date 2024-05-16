@@ -25,6 +25,7 @@ const SignIn = () => {
       if(response){
         // Saving the token in localstorage
         localStorage.setItem('accessToken', response.data.access_token);
+        localStorage.setItem('currentLoggedInUserEmail', email)
         setShowSuccessModal(true);
         const timeoutId = setTimeout(() => {
           setShowSuccessModal(false);

@@ -30,7 +30,8 @@ Phase 2:
 
 P0 :
 1. Blog author field should contain author name and should autopopulate from logged in user credentials.
-2. 
+2. After token expires, remove it from the localStorage as well.
+3. Add a "Hi, ${username}" tag when the user is logged in, in all pages.
 
 P1 :
 

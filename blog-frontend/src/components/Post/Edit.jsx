@@ -5,56 +5,96 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 const EditPost = () => {
   const [post, setPost] = useState({});
-  const { id } = useParams();
+  const { id, authorID } = useParams();
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [hideModalTimeout, setHideModalTimeout] = useState(null);
+
   const navigate = useNavigate();
 
   const token = localStorage.getItem('accessToken');
   if(!token) navigate('/signin');
 
-  const getPost = () => {
-    axios.get(`${server.baseURL}/blog/post/${id}`)
-      .then(response => setPost(response.data))
-      .catch(error => console.error('Error fetching post:', error));
+  const getPost = async () => {
+    try {
+      const requestConfig = {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }
+      const response = await axios.get(`${server.baseURL}/blog/post/${id}/${authorID}`, requestConfig)
+      if(!response) throw new Error('Error fetching post of the author')
+      setPost(response.data)
+    } catch (error) {
+        console.error('Error fetching post:', error);
+    }
   };
 
   useEffect(() => {
     getPost();
-  }, []); // Empty dependency array to run the effect only once on component mount
+  }, []);
 
   const navigateBack = () => {
     navigate('/home')
   };
 
-  const editPost = (e) => {
-    e.preventDefault();
-    const postData = {
-      title: post.title,
-      description: post.description,
-      body: post.body,
-      author: post.author,
-      date_posted: post.date_posted,
-    };
+  const editPost = async (e) => {
+    try {
+      e.preventDefault();
+      const postData = {
+        title: post.title,
+        description: post.description,
+        body: post.body,
+        author: post.author._id,
+        date_posted: post.date_posted,
+      };
 
-    const requestConfig = {
-      headers: {
-        'Authorization': `Bearer ${token}`
+      const requestConfig = {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
       }
+      const response = await axios.put(`${server.baseURL}/blog/post?postID=${id}`, postData, requestConfig)
+      if(!response) throw new Error('Error updating post of an author')
+      setShowSuccessModal(true)
+      const timeoutId = setTimeout(() => {
+        setShowSuccessModal(false);
+        navigateBack()
+      }, 2000);
+      setHideModalTimeout(timeoutId);
+    } catch (error) {
+      console.error('Error editing post:', error);
     }
-    axios.put(`${server.baseURL}/blog/post?postID=${id}`, postData, requestConfig)
-      .then(navigateBack)
-      .catch(error => console.error('Error editing post:', error));
   };
 
   const handleLogoutUser = () => {
     navigate('/signout')
   }  
 
+  // Clear the timeout when the component unmounts
+  useEffect(() => {
+    return () => {
+      if (hideModalTimeout) {
+        clearTimeout(hideModalTimeout);
+      }
+    };
+  }, [hideModalTimeout]);  
+
   return (
-    <div>
+    <>
       <div style={{ marginTop: '30px' }}>
         <div className="d-flex mt-2 justify-content-center align-items-center">
           <button className="btn btn-success mr-1" onClick={navigateBack}>View All Posts</button>
           <button className="btn btn-danger" onClick={handleLogoutUser}>Logout</button>
+          {/* Bootstrap Popup for Success */}
+          <div className={`modal fade ${showSuccessModal ? 'show' : ''}`} tabIndex="-1" role="dialog" style={{ display: showSuccessModal ? 'block' : 'none' }}>
+            <div className="modal-dialog" role="document">
+              <div className="modal-content bg-success">
+                <div className="modal-body text-white">
+                  Post updated successfully
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div className='d-flex justify-content-center align-items-center' style={{ minHeight: '50vh' }}>
@@ -101,7 +141,7 @@ const EditPost = () => {
             <input
               type="text"
               id="author"
-              value={post.author || ''}
+              value={post.author?.fullName || ''}
               onChange={(e) => setPost({ ...post, author: e.target.value })}
               name="author"
               className="form-control"
@@ -114,7 +154,7 @@ const EditPost = () => {
         </form>
       </div>
       </div>
-    </div>
+    </>
   );
 };
 

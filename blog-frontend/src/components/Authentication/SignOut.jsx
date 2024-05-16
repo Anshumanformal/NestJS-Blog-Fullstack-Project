@@ -11,7 +11,7 @@ const SignOut = () => {
       setTimer((prevTimer) => prevTimer - 1);
     }, 1000);
 
-    localStorage.removeItem('accessToken')
+    localStorage.clear()
     return () => clearInterval(countdown);
   }, []);
 

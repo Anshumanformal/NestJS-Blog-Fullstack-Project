@@ -16,13 +16,37 @@ export class BlogController {
         return res.status(HttpStatus.OK).json(posts);
     }
 
-    @Get('post/:postID')
-    async getPost(@Res() res, @Param('postID', new ValidateObjectId()) postID) {
-        const post = await this.blogService.getPost(postID);
+    @UseGuards(JwtGuard)
+    @Get('post/:authorID')
+    async getAllPostsByAuthor(
+        @Res() res,
+        @Param('authorID', new ValidateObjectId()) authorID
+        ) {
+        const posts = await this.blogService.getAllPostsByAuthor(authorID)
+        if (!posts) throw new NotFoundException('Posts do not exist!');
+        return res.status(HttpStatus.OK).json(posts);
+    }
+
+    // @Get('post/:postID')
+    // async getPost(@Res() res, @Param('postID', new ValidateObjectId()) postID) {
+    //     const post = await this.blogService.getPost(postID);
+    //     if (!post) throw new NotFoundException('Post does not exist!');
+    //     return res.status(HttpStatus.OK).json(post);
+    // }
+
+    @UseGuards(JwtGuard)
+    @Get('post/:postID/:authorID')
+    async getPostByAuthor(
+        @Res() res,
+        @Param('postID', new ValidateObjectId()) postID,
+        @Param('authorID', new ValidateObjectId()) authorID
+        ) {
+        const post = await this.blogService.getPostByAuthor(postID, authorID)
         if (!post) throw new NotFoundException('Post does not exist!');
         return res.status(HttpStatus.OK).json(post);
-
     }
+
+    
 
     @UseGuards(JwtGuard)
     @Post('/post')
@@ -51,8 +75,12 @@ export class BlogController {
 
     @UseGuards(JwtGuard)
     @Delete('/post')
-    async deletePost(@Res() res, @Query('postID', new ValidateObjectId()) postID) {
-        const deletedPost = await this.blogService.deletePost(postID);
+    async deletePost(
+        @Res() res,
+        @Query('postID', new ValidateObjectId()) postID,
+        @Query('authorID', new ValidateObjectId()) authorID
+    ) {
+        const deletedPost = await this.blogService.deletePost(postID, authorID);
         if (!deletedPost) throw new NotFoundException('Post does not exist!');
         return res.status(HttpStatus.OK).json({
             message: 'Post has been deleted!',
