@@ -26,12 +26,12 @@ Phase 2:
 # Bugs
 
 P0 :
-1. Blog author field should contain author name and should autopopulate from logged in user credentials.
-2. After token expires, remove it from the localStorage as well.
-3. Add a "Hi, ${username}" tag when the user is logged in, in all pages.
+1. Blog author field should contain author name and should autopopulate from logged in user credentials - done
+2. After token expires, remove it from the localStorage as well
+3. Add a "Hi, ${username}" tag when the user is logged in, in all pages - done
 
 P1 :
-1. Apply Backend Guard / Authorization also to prevent any user from creating / updating a post without been logged in.
+1. Apply Backend Guard / Authorization also to prevent any user from creating / updating a post without been logged in - done
 2. Try working on a logic, to show a logout modal popup, like in SignIn.jsx, and remove the component for Signout.jsx. See if it works. Also, handle server-side token expiration as well.
 3. Try manual expiration of token from Backend.
     -> 1st method - Automatic expiration using expiresIn key.
