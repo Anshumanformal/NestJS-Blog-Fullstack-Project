@@ -21,10 +21,7 @@ Phase 1:
     3. date & time of the blog.
 
 Phase 2:
-1. User authentication - User must be logged in to create/ update/ delete the blog.
-2. Display 2 buttons in navbar,
-    - "My Blogs - display as empty when no blogs are present",
-    - All blogs - here all other blogs would be present, except the user blogs
+1. User authentication - User must be logged in to create/ update/ delete the blog - done
 
 # Bugs
 
@@ -34,8 +31,6 @@ P0 :
 3. Add a "Hi, ${username}" tag when the user is logged in, in all pages.
 
 P1 :
-
-P2 :
 1. Apply Backend Guard / Authorization also to prevent any user from creating / updating a post without been logged in.
 2. Try working on a logic, to show a logout modal popup, like in SignIn.jsx, and remove the component for Signout.jsx. See if it works. Also, handle server-side token expiration as well.
 3. Try manual expiration of token from Backend.
@@ -43,4 +38,4 @@ P2 :
     -> 2nd method - blacklist the token by hitting a logout route.
 
 
-background-color: #282c34;
+-> Old background-color: #282c34;
