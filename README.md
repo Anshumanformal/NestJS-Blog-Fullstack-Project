@@ -13,12 +13,12 @@ Phase 1:
 
 1. User CRUD
 2. Blog CRUD
-3. All users can see all blog posts
+3. All users can preview all blog posts. After few characters, blog details are hidden - done
 4. Upon clicking on a blog, 
     Show :-
-    1. Blog creator info
-    2. Blog content
-    3. date & time of the blog.
+    1. Blog creator info - done
+    2. Blog content - done
+    3. date & time of the blog - done
 
 Phase 2:
 1. User authentication - User must be logged in to create/ update/ delete the blog - done
