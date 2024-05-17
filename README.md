@@ -6,7 +6,7 @@ NestJS FullStack Project - User Blog app
 
 # Live URLs
 1. ReactJS Frontend live URL - https://anshumanformal.github.io/Blog-fullstack-app-ReactJS-and-NestJS-frontend/#/home
-2. NestJS Backend live URL - https://blog-fullstack-app-reactjs-and-nestjs.onrender.com (Visit [Heere](https://dashboard.render.com/web/srv-cp3kclol6cac73f7ega0) to activate the inactive webapp)
+2. NestJS Backend live URL - https://blog-fullstack-app-reactjs-and-nestjs.onrender.com (Visit [Here](https://dashboard.render.com/web/srv-cp3kclol6cac73f7ega0) to activate the inactive webapp)
 
 # Scripts to run the fullstack app on local machine
 1. cd blog-frontend/ && npm run start
